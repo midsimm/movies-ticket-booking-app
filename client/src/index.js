@@ -4,6 +4,8 @@ import { ConfigProvider, App as AntdApp } from 'antd';
 import "antd/dist/reset.css"; // Import Ant Design styles
 import './index.css';
 import App from './App';
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -11,7 +13,9 @@ root.render(
   <React.StrictMode>
     <ConfigProvider>
       <AntdApp>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </AntdApp>
     </ConfigProvider>
   </React.StrictMode>
