@@ -35,3 +35,37 @@ exports.registerUser = async (req, res) => {
         });
     }
 }
+
+exports.loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email: email });
+
+        if (!user) {
+            return res.status(200).json({
+                success: false,
+                message: "User does not exist. Please register first.",
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(200).json({
+                success: false,
+                message: "Invalid password",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "User logged in successfully",
+            user: user,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error logging in user",
+            error: error.message,
+        });
+    }
+}

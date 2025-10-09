@@ -1,9 +1,21 @@
-import React from "react";
-
-import { Form, Input, Button } from "antd";
-import {Link} from 'react-router-dom'
+import { Form, Input, Button, App as AntdApp } from "antd";
+import {Link} from 'react-router-dom';
+import { registerUser } from "../apiCalls/user";
 
 function Register() {
+  const { message } = AntdApp.useApp();
+  const onFormSubmit = async (values) => {
+    try {
+      const response = await registerUser(values);
+      if (response.success) {
+        message.success(response.message);
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error(`Registration failed: ${error.message}`);
+    }
+  }
   return (
     <>
       <header className="App-header">
@@ -12,7 +24,7 @@ function Register() {
             <h1>Register to BookMyShow</h1>
           </section>
           <section className="right-section">
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={onFormSubmit}>
               <Form.Item
                 label="Name"
                 name="name"

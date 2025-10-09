@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ConfigProvider, App as AntdApp } from 'antd';
+import "antd/dist/reset.css"; // Import Ant Design styles
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,7 +9,11 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider>
+      <AntdApp>
+        <App />
+      </AntdApp>
+    </ConfigProvider>
   </React.StrictMode>
 );
 

@@ -1,7 +1,24 @@
-import {Form , Input , Button} from 'antd'
-import {Link} from 'react-router-dom'
+import {Form , Input , Button, App as AntdApp} from 'antd';
+import {Link} from 'react-router-dom';
+import { loginUser } from '../apiCalls/user';
 
 function Login() {
+  const { message } = AntdApp.useApp();
+  const onSubmit = async (values) => {
+    try {
+      const response = await loginUser(values);
+      console.log("Login response:", response);
+      if (response.success) {
+        message.success(response.message);
+        window.location.href = "/";
+      } else {
+        message.error(response.message);
+        console.error("Login failed:", response.message);
+      }
+    } catch (error) {
+      message.error(`Login failed: ${error.message}`);
+    }
+  }
   return (
      <>
       <header className="App-header">
@@ -10,7 +27,7 @@ function Login() {
             <h1>Welcome back to BookMyShow</h1>
           </section>
           <section className="right-section">
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={onSubmit}>
               <Form.Item
                 label="Email"
                 name="email"
