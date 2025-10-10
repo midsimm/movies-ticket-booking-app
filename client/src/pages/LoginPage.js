@@ -1,15 +1,19 @@
 import {Form , Input , Button, App as AntdApp} from 'antd';
 import {Link} from 'react-router-dom';
 import { loginUser } from '../apiCalls/user';
+import { setUser } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const { message } = AntdApp.useApp();
+  const dispatch = useDispatch();
   const onSubmit = async (values) => {
     try {
       const response = await loginUser(values);
       console.log("Login response:", response);
       if (response.success) {
         message.success(response.message);
+        dispatch(setUser(response.user));
         window.location.href = "/";
       } else {
         message.error(response.message);
@@ -19,7 +23,7 @@ function Login() {
       message.error(`Login failed: ${error.message}`);
     }
   }
-  
+
   return (
      <>
       <header className="App-header">

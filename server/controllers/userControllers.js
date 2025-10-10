@@ -73,3 +73,7 @@ exports.loginUser = async (req, res) => {
         });
     }
 }
+
+exports.getCurrentUser = async (req, res) => {
+
+}

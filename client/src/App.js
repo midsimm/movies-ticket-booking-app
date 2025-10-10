@@ -10,13 +10,22 @@ function App() {
 
   console.log("Loader state in App.js:", loader);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/login" element={<LoginPage/>} />
-        <Route path="/register" element={<RegisterPage/>} />
-      </Routes>
-    </Router>
+    <div>
+      { loader && ((
+            <div className="loader-container">
+          {" "}
+          <div className="loader"> </div>{" "}
+        </div>
+        ))}
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/register" element={<RegisterPage/>} />
+        </Routes>
+      </Router>
+
+    </div>
   );
 }
 
