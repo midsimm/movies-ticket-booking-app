@@ -1,18 +1,31 @@
 import {Form , Input , Button, App as AntdApp} from 'antd';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { loginUser } from '../apiCalls/user';
 import { setUser } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
+import { showLoader, hideLoader } from '../redux/loaderSlice';
+import { useEffect } from 'react';
 
 function Login() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
   const { message } = AntdApp.useApp();
   const dispatch = useDispatch();
   const onSubmit = async (values) => {
     try {
+      dispatch(showLoader());
       const response = await loginUser(values);
+      dispatch(hideLoader());
       console.log("Login response:", response);
       if (response.success) {
         message.success(response.message);
+        localStorage.setItem("token", response.token);
         dispatch(setUser(response.user));
         window.location.href = "/";
       } else {

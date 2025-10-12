@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useSelector } from "react-redux";
+import ProtectedRoute from './components/protectedRoute';
 
 function App() {
   const loader = useSelector((state) => state.loader.loading);
@@ -19,7 +20,7 @@ function App() {
         ))}
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage/>} />
+          <Route path="/" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
         </Routes>

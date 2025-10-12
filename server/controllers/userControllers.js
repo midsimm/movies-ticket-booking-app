@@ -62,7 +62,7 @@ exports.loginUser = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "User logged in successfully",
-            user: user,
+            user: {...user, password: undefined},
             token: token,
         });
     } catch (error) {
@@ -75,5 +75,28 @@ exports.loginUser = async (req, res) => {
 }
 
 exports.getCurrentUser = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await UserModel.findById({_id: userId})?.select("-password");
 
+        if (!user) {
+            return res.json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "User fetched successfully",
+            user: user,
+        });
+
+    } catch (error) {
+        res.json({
+            success: false,
+            message: "Error fetching current user",
+            error: error.message,
+        });
+    }
 }

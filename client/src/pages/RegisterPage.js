@@ -1,8 +1,16 @@
 import { Form, Input, Button, App as AntdApp } from "antd";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { registerUser } from "../apiCalls/user";
+import { useEffect } from "react";
 
 function Register() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   const { message } = AntdApp.useApp();
   const onFormSubmit = async (values) => {
     try {

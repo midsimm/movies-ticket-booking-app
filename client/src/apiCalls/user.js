@@ -8,4 +8,9 @@ export const registerUser = async (registerUserData) => {
 export const loginUser = async (loginUserData) => {
     const response = await axiosInstance.post("/api/users/login", loginUserData);
     return response.data;
-}
+};
+
+export const getCurrentUser = async () => {
+    const response = await axiosInstance.get("/api/users/getCurrentUser");
+    return response.data;
+};
