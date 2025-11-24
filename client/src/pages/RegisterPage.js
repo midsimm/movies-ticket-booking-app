@@ -11,7 +11,9 @@ function Register() {
       navigate("/");
     }
   }, []);
+
   const { message } = AntdApp.useApp();
+
   const onFormSubmit = async (values) => {
     try {
       const response = await registerUser(values);
@@ -23,7 +25,8 @@ function Register() {
     } catch (error) {
       message.error(`Registration failed: ${error.message}`);
     }
-  }
+  };
+  
   return (
     <>
       <header className="App-header">

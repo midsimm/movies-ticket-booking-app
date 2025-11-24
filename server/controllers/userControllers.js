@@ -23,6 +23,8 @@ exports.registerUser = async (req, res) => {
             password: password,
         });
 
+        user.password = undefined;
+
         res.status(201).json({
             success: true,
             message: "User registered successfully",
@@ -58,11 +60,11 @@ exports.loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`);
-
+        user.password = undefined;
         res.status(200).json({
             success: true,
             message: "User logged in successfully",
-            user: {...user, password: undefined},
+            user: user,
             token: token,
         });
     } catch (error) {
