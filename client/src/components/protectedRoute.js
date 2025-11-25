@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { getCurrentUser } from "../apiCalls/user";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoader, hideLoader } from "../redux/loaderSlice";
 import { setUser } from "../redux/userSlice";
@@ -16,17 +16,24 @@ import {
 const ProtectedRoute = ({ children }) => {
     const { user } = useSelector((state) => state.user);
     const { message } = AntdApp.useApp();
+    const hasFetchedUser = useRef(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const navItems = [
         {
-            label: "Home",
+            label: (
+                <span onClick={() => navigate("/")}>
+                    Home
+                </span>
+            ),
+            key: "home",
             icon: <HomeOutlined />,
         },
 
         {
             label: `${user ? user.name : " "}`,
+            key: "user",
             icon: <UserOutlined />,
 
             children: [
@@ -36,6 +43,7 @@ const ProtectedRoute = ({ children }) => {
                             My Profile
                         </span>
                     ),
+                    key: "profile",
                     icon: <ProfileOutlined />,
                 },
                 {
@@ -44,6 +52,7 @@ const ProtectedRoute = ({ children }) => {
                             Log out
                         </Link>
                     ),
+                    key: "logout",
                     icon: <LogoutOutlined />,
                 },
             ],
@@ -53,6 +62,7 @@ const ProtectedRoute = ({ children }) => {
     const isValidUser = async () => {
         try {
             dispatch(showLoader());
+            hasFetchedUser.current = true;
             const response = await getCurrentUser();
             dispatch(hideLoader());
             if (response.success) {
@@ -70,6 +80,7 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        if(hasFetchedUser.current === true) return;
         if (!token || !isValidUser()) {
             navigate("/login");
         }
