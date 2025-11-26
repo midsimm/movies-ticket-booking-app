@@ -1,7 +1,7 @@
-import { Modal, Form, Button, Input } from "antd";
-import { useState } from "react";
+import { Modal, Form, Button, Input, App as AntdApp, Spin } from "antd";
+import { useState, useEffect } from "react";
 import { addTheatre } from "../../redux/theatreSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TheatreList = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +9,27 @@ const TheatreList = () => {
     const openModal = () => setIsOpen(true);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+    const { data, loading, error } = useSelector(state => state.theatre.singleTheatre);
+    const { message } = AntdApp.useApp();
+    
+    useEffect(() => {
+        if(error) {
+            message.error("Operation failed.")
+        } else if(data) {
+            message.success("Operation successful.")
+        }
+    }, [data, error]);
+
+    if(loading) {
+        return (
+            <Spin fullscreen />
+        );
+    }
 
     const handleSubmit = (values) => {
         dispatch(addTheatre(values));
         form.resetFields();
+        closeModal();
     };
 
     return (
