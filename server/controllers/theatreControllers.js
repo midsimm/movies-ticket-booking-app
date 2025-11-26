@@ -14,7 +14,8 @@ exports.addTheatre = async (req, res) => {
             name: name,
             email: email,
             phone: phone,
-            address: address
+            address: address,
+            owner: req.userId,
         });
 
         return res.json({
@@ -24,8 +25,50 @@ exports.addTheatre = async (req, res) => {
         });
     } catch (err) {
         return res.json({
-            success: failure,
+            success: false,
             message: `Error occured: ${err}`
         });
+    }
+};
+
+exports.updateTheatre = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const theatre = await TheatreModel.findByIdAndUpdate(id, req.body, {new: true});
+
+        return res.json({
+            success: true,
+            message: "Theatre updated successfully.",
+            theatre: theatre
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: `Error occurred: ${err}`
+        });
+    }
+};
+
+exports.deleteTheatre = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deleted = await TheatreModel.findByIdAndDelete(id);
+
+        if(!deleted) {
+            return res.json({
+                success: false,
+                message: "Theatre not found!"
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: "Theatre deleted successfuly.",
+        });
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: `Error occurred: ${err}`
+        })
     }
 };
