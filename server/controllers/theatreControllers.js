@@ -64,6 +64,7 @@ exports.deleteTheatre = async (req, res) => {
         return res.json({
             success: true,
             message: "Theatre deleted successfuly.",
+            id: req.params.id
         });
     } catch (err) {
         return res.json({
@@ -72,3 +73,18 @@ exports.deleteTheatre = async (req, res) => {
         })
     }
 };
+
+exports.getAllTheatres = async (req, res) => {
+    try {
+        const theatres = await TheatreModel.find({ owner: req.userId });
+        return res.json({
+            success: true,
+            theatres: theatres
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: `Error occurred :${err}`
+        });
+    }
+}

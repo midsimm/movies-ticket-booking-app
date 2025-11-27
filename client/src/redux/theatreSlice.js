@@ -81,7 +81,7 @@ const theatreSlice = createSlice({
                 state.singleTheatre.data = action.payload;
                 state.singleTheatre.error = null;
 
-                state.allTheatres.data = [...(state.allTheatres.data || []), action.payload];
+                state.allTheatres.data.theatres = [...(state.allTheatres.data?.theatres || []), action.payload?.theatre];
             })
             .addCase(addTheatre.rejected, (state, action) => {
                 state.singleTheatre.loading = false;
@@ -99,7 +99,7 @@ const theatreSlice = createSlice({
                 state.singleTheatre.data = action.payload;
                 state.singleTheatre.error = null;
 
-                state.allTheatres.data = state.allTheatres.data.map(theatre => theatre._id === action.payload._id ? action.payload : theatre);
+                state.allTheatres.data.theatres = state.allTheatres.data?.theatres.map(theatre => theatre._id === action.payload.theatre?._id ? action.payload?.theatre : theatre);
             })
             .addCase(updateTheatre.rejected, (state, action) => {
                 state.singleTheatre.loading = false;
@@ -117,7 +117,7 @@ const theatreSlice = createSlice({
                 state.singleTheatre.data = action.payload;
                 state.singleTheatre.error = null;
 
-                state.allTheatres.data = state.allTheatres.data.filter(theatre => theatre._id !== action.payload.id);
+                state.allTheatres.data.theatres = state.allTheatres.data?.theatres.filter(theatre => theatre._id !== action.payload.id);
             })
             .addCase(deleteTheatre.rejected, (state, action) => {
                 state.singleTheatre.loading = false;
