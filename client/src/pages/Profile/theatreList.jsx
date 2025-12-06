@@ -30,7 +30,7 @@ const TheatreList = () => {
     }, [data, error]);
 
     useEffect(() => {
-        dispatch(fetchTheatres());
+        dispatch(fetchTheatres({fetchAllTheatres: false}));
     }, []);
 
     const dataSource = useMemo(() => {
@@ -71,7 +71,7 @@ const TheatreList = () => {
             setTheatre(null);
             setIsDeleteModalOpen(false);
         }
-    }
+    };
 
     const columns = [
         {

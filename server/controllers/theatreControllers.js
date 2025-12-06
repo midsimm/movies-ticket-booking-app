@@ -1,3 +1,4 @@
+const { request } = require("express");
 const TheatreModel = require("../models/theatreModel");
 
 exports.addTheatre = async (req, res) => {
@@ -34,7 +35,7 @@ exports.addTheatre = async (req, res) => {
 exports.updateTheatre = async (req, res) => {
     try {
         const id = req.params.id;
-        const theatre = await TheatreModel.findByIdAndUpdate(id, req.body, {new: true});
+        const theatre = await TheatreModel.findByIdAndUpdate(id, {$set: req.body}, {new: true});
 
         return res.json({
             success: true,
@@ -74,9 +75,17 @@ exports.deleteTheatre = async (req, res) => {
     }
 };
 
-exports.getAllTheatres = async (req, res) => {
+exports.getTheatres = async (req, res) => {
     try {
-        const theatres = await TheatreModel.find({ owner: req.userId });
+        let theatres;
+        const type = req.query.type;
+        let query = {};
+        if(type === "user") {
+            query = { owner: req.userId };
+        }
+        console.log(query);
+        theatres = await TheatreModel.find(query);
+
         return res.json({
             success: true,
             theatres: theatres
@@ -87,4 +96,4 @@ exports.getAllTheatres = async (req, res) => {
             message: `Error occurred :${err}`
         });
     }
-}
+};

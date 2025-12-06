@@ -40,9 +40,15 @@ export const deleteTheatre = createAsyncThunk("/theatres/delete", async (payload
     }
 });
 
-export const fetchTheatres = createAsyncThunk("/theatres/fetch", async ( _payload, thunkAPI) => {
+export const fetchTheatres = createAsyncThunk("/theatres/fetch/all", async ( payload, thunkAPI) => {
     try {
-        const response = await axiosInstance.get("/api/theatres/all");
+        let response;
+        if(payload.fetchAllTheatres) {
+            response = await axiosInstance.get("/api/theatres/fetchAll?type=all");
+        } else {
+            response = await axiosInstance.get("/api/theatres/fetchAll?type=user");
+        }
+        
         return response.data;
     } catch (err) {
         return thunkAPI.rejectWithValue({

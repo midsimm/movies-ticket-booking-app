@@ -1,23 +1,40 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { App as AntdApp } from "antd";
+import { App as AntdApp, Tabs } from "antd";
+import TheatreRequest from "./theatreRequest";
+import MoviesList from "./moviesList";
 
 const Admin = () => {
-    const { data } = useSelector(state => state.user);
+    const { user } = useSelector(state => state.user);
     const navigate = useNavigate();
     const { message } = AntdApp.useApp();
 
     useEffect(() => {
-        if(!data?.user.isAdmin) {
-            message.error("User is not a admin");
-            navigate("/");
+        if(user) {
+            if(!user.isAdmin) {
+                message.error("User is not a admin");
+                navigate("/");
+            }
         }
-    }, [data, navigate]);
+    }, [user, navigate]);
 
+    const items = [
+        {
+            label: "MoviesList ",
+            key: "1",
+            children: <MoviesList />
+        },
+        {
+            label: "Theatre request",
+            key: "2",
+            children: <TheatreRequest />
+        }
+    ];
     return (
         <div>
-            Admin Page
+            <h1>Welcome admin {user.name}</h1>
+            <Tabs items={items} defaultActiveKey="1" />
         </div>
     );
 };
