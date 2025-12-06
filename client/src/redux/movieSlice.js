@@ -20,6 +20,16 @@ export const updateMovie = createAsyncThunk("movie/updateMovie", async (payload,
     }
 });
 
+export const getMovie = createAsyncThunk("movie/getMovie", async (payload, thunkAPI) => {
+    try {
+        console.log(payload);
+        const response = await axiosInstance.get(`/api/movies/getMovie/${payload._id}`);
+        return response.data;
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+});
+
 export const deleteMovie = createAsyncThunk("movie/deleteMovie", async (payload, thunkAPI) => {
     try {
         const response = await axiosInstance.delete(`/api/movies/deleteMovie/${payload._id}`);
@@ -87,6 +97,21 @@ const movieSlice = createSlice({
                 ));
             })
             .addCase(updateMovie.rejected, (state, action) => {
+                state.singleMovie.data = null;
+                state.singleMovie.loading = false;
+                state.singleMovie.error = action.payload;
+            })
+            .addCase(getMovie.pending, (state) => {
+                state.singleMovie.data = null;
+                state.singleMovie.loading = true;
+                state.singleMovie.error = null;
+            })
+            .addCase(getMovie.fulfilled, (state, action) => {
+                state.singleMovie.data = action.payload;
+                state.singleMovie.loading = false;
+                state.singleMovie.error = null;
+            })
+            .addCase(getMovie.rejected, (state, action) => {
                 state.singleMovie.data = null;
                 state.singleMovie.loading = false;
                 state.singleMovie.error = action.payload;

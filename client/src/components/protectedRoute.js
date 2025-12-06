@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Outlet } from "react-router-dom";
 import { getCurrentUser } from "../apiCalls/user";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import {
     LogoutOutlined,
 } from "@ant-design/icons";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
     const { user } = useSelector((state) => state.user);
     const { message } = AntdApp.useApp();
     const hasFetchedUser = useRef(false);
@@ -108,7 +108,7 @@ const ProtectedRoute = ({ children }) => {
                     </Header>
 
                     <div style={{ padding: 24, minHeight: 380, background: "#fff" }}>
-                        {children}
+                        <Outlet />
                     </div>
                 </Layout>
             </>

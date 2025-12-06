@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import ProtectedRoute from './components/protectedRoute';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
+import SingleMovie from './pages/SingleMovie';
+
 
 function App() {
   const loader = useSelector((state) => state.loader.loading);
@@ -22,11 +24,14 @@ function App() {
         ))}
       <Router>
         <Routes>
-          <Route path="/" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute><Admin/></ProtectedRoute>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<HomePage/>} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/admin" element={<Admin/>} />
+            <Route path="/movie/:id/:date" element={<SingleMovie />} />
+          </Route>
         </Routes>
       </Router>
 

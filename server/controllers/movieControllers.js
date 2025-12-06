@@ -39,6 +39,30 @@ exports.updateMovie = async (req, res) => {
     }
 };
 
+exports.getMovie = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const movie = await MovieModel.findByIdAndUpdate(movieId);
+
+        if(!movie) {
+            return res.status(404).json({
+                success: false,
+                message: "Movie not found!"
+            });
+        }
+
+        return res.json({
+            success: true,
+            movie: movie
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: `Error occurred while fetching the movie: ${err}`
+        });
+    }
+};
+
 exports.deleteMovie = async (req, res) => {
     try {
         const movieId = req.params.id;
