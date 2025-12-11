@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import DeleteTheatreModal from "./DeleteTheatreModal";
 
+import ShowsModal from "./ShowsModal";
+
 const TheatreList = () => {
     const [form] = Form.useForm();
     const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +22,12 @@ const TheatreList = () => {
     const { data: tableData, loading: tableLoading, error: tableError } = useSelector(state => state.theatre.allTheatres);
     const { message } = AntdApp.useApp();
     const [theatre, setTheatre] = useState(null);
+
+    const [isShowModalOpen, setIsShowModalOpen] = useState(false);
+    const openShowsModal = (theatreId) => {
+        setIsShowModalOpen(true);
+        setTheatre(theatreId);
+    };
 
     useEffect(() => {
         if(error) {
@@ -110,6 +118,12 @@ const TheatreList = () => {
                         onClick={() => deleteTheatreRecord(record)}
                         icon={<DeleteOutlined />}
                     />
+                    <Button
+                        onClick={() => openShowsModal(record.key)}
+                        disabled={record.isActive === false}
+                    >
+                        Shows+
+                    </Button>
                 </span>
             )
         }
@@ -172,11 +186,11 @@ const TheatreList = () => {
                 </Form>
             </Modal>
             <DeleteTheatreModal handleTheatreDelete={handleTheatreDelete} isOpen={isDeleteModalOpen} setIsOpen={setIsDeleteModalOpen}/>
+            <ShowsModal isModalOpen={isShowModalOpen} closeModal={() => setIsShowModalOpen(false)} theatreId={theatre}/>
             <Table 
                 columns={columns}
                 dataSource={dataSource}
             />
-
         </>
     );
 };

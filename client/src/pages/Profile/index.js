@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Tabs } from "antd";
 import TheatreList from "./theatreList";
-import Bookings from "./bookings";
+import Bookings from "../BookingPage";
 
 const Profile = () => {
     const { user } = useSelector(state => state.user);

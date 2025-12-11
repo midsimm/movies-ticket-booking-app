@@ -2,6 +2,7 @@ const express = require("express");
 const userRoutes = require("./routers/userRouters");
 const theatreRoutes = require("./routers/theatreRouters");
 const movieRoutes = require("./routers/movieRouters");
+const showRoutes = require("./routers/showRouter");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
 app.use("/api/theatres", theatreRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/shows", showRoutes);
 
 // connect to MongoDB
 mongoose.connect("mongodb+srv://simranjeets:13npozpoxm9dUe34@cluster0.kashzhe.mongodb.net/MDB?retryWrites=true&w=majority&appName=Cluster0")
