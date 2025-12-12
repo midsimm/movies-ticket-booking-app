@@ -19,6 +19,16 @@
 .text-center{
   text-align: center;
 }
+.selected-seat {
+  border-color: #02a802;
+  background-color: #02a802;
+  color: #fff;
+}
+.available-seat {
+  background-color: #f6f6f6;
+  border: 1px solid #a0a0a0;
+  cursor: pointer;
+}
 .cursor-pointer{
   cursor: pointer;
 }

@@ -1,10 +1,12 @@
+require("dotenv").config();
+console.log(process.env.SECRET_KEY, process.env.STRIPE_KEY);
 const express = require("express");
 const userRoutes = require("./routers/userRouters");
 const theatreRoutes = require("./routers/theatreRouters");
 const movieRoutes = require("./routers/movieRouters");
 const showRoutes = require("./routers/showRouter");
+const bookingRoutes = require("./routers/bookingRouter");
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());
@@ -14,6 +16,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/theatres", theatreRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/shows", showRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 // connect to MongoDB
 mongoose.connect("mongodb+srv://simranjeets:13npozpoxm9dUe34@cluster0.kashzhe.mongodb.net/MDB?retryWrites=true&w=majority&appName=Cluster0")

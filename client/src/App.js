@@ -8,7 +8,7 @@ import ProtectedRoute from './components/protectedRoute';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
 import SingleMovie from './pages/SingleMovie';
-import BookingPage from './pages/BookingPage';
+import BookShow from './pages/BookShow';
 
 function App() {
   const loader = useSelector((state) => state.loader.loading);
@@ -31,7 +31,7 @@ function App() {
             <Route path="/profile" element={<Profile/>} />
             <Route path="/admin" element={<Admin/>} />
             <Route path="/movie/:id/:date" element={<SingleMovie />} />
-            <Route path="/booking/:showId" element={<BookingPage />} />
+            <Route path="/bookShow/:showId" element={<BookShow />} />
           </Route>
         </Routes>
       </Router>

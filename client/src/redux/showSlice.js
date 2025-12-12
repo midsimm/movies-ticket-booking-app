@@ -69,7 +69,15 @@ const showSlice = createSlice({
             error: null,
         }
     },
-    reducers: {},
+    reducers: {
+        updateShowBookings: (state, action) => {
+            const { showId, seats } = action.payload;
+            const showState = state.singleShow;
+            if(showState.data && showState.data.show._id === showId) {
+                showState.data.show.bookedSeats.push(...seats);
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllShowsForTheatreId.pending, (state) => {
@@ -175,5 +183,6 @@ const showSlice = createSlice({
     }
 });
 
+export const { updateShowBookings } = showSlice.actions;
 export default showSlice.reducer;
 

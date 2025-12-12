@@ -5,7 +5,7 @@ const TheatreWithShows = ({ data }) => {
     const navigate = useNavigate();
 
     const goToShowBooking = (showId) => {
-        navigate(`/booking/${showId}`);
+        navigate(`/bookShow/${showId}`);
     };
     
     return (
